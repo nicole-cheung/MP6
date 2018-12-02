@@ -7,15 +7,16 @@
     tools:context=".MainActivity">
 
     <ListView
+        android:id="@+id/contacts"
         android:layout_width="match_parent"
-        android:layout_height="444dp" />
+        android:layout_height="603dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="447dp" />
+        android:text="Add Person"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="621dp" />
 
 </android.support.constraint.ConstraintLayout>
