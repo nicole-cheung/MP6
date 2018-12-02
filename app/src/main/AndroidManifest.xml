@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactPage"></activity>
+        <activity
+            android:name=".ContactPage"
+            android.label="@string/app_name"
     </application>
 
 </manifest>
