@@ -82,7 +82,7 @@ public class Contact {
         time = t;
     }
 
-    public Contact (String n, String p, int m, int d, String ms, int t) {¡
+    public Contact (String n, String p, int m, int d, String ms, int t) {
         name = n;
         phone = p;
         month = m;
