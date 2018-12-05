@@ -15,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-    public void start(View v) {
-        Intent i = new Intent (this, ContactPage.class);
-        startActivity(i);
 
+        final Button addBtn = (Button) findViewById(R.id.add_item);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent (MainActivity.this, ContactPage.class));
+            }
+        });
     }
 
 }

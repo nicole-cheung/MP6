@@ -15,9 +15,13 @@ public class ContactPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_page);
-    }
-    public void start(View v) {
-        Intent i = new Intent (this, MainActivity.class);
-        startActivity(i);
+
+        final Button saveBtn = (Button) findViewById(R.id.saveButton);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "20 Points Plz");
+                startActivity(new Intent (ContactPage.this, MainActivity.class));
+            }
+        });
     }
 }
