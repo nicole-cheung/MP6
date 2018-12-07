@@ -20,7 +20,7 @@ public class ContactPage extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, "20 Points Plz");
-                startActivity(new Intent (ContactPage.this, MainActivity.class));
+                startActivity(new Intent(ContactPage.this, MainActivity.class));
             }
         });
     }

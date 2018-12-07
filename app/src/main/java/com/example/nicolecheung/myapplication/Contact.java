@@ -1,4 +1,5 @@
 package com.example.nicolecheung.myapplication;
+import java.util.ArrayList;
 
 public class Contact {
     private String name;
@@ -6,6 +7,7 @@ public class Contact {
     private int month, day;
     private String message;
     private int time;
+    private static ArrayList<Contact> mainList;
 
     public String getName() {
         return name;
@@ -53,6 +55,16 @@ public class Contact {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public static ArrayList<Contact> getList() { return mainList; }
+
+    public void addToList() {
+        mainList.add(this);
+    }
+
+    public String toString() {
+        return name + "\n" + month + "/" + day;
     }
 
     public Contact() {
