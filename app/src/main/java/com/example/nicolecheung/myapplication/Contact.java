@@ -75,6 +75,7 @@ public class Contact {
         phone = p;
         month = m;
         day = d;
+        time = 0000;
         message = "Happy birthday!";
     }
 
@@ -83,6 +84,7 @@ public class Contact {
         phone = p;
         month = m;
         day = d;
+        time = 0000;
         message = ms;
     }
 
@@ -92,6 +94,7 @@ public class Contact {
         month = m;
         day = d;
         time = t;
+        message = "Happy birthday!";
     }
 
     public Contact (String n, String p, int m, int d, String ms, int t) {

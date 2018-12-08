@@ -8,7 +8,7 @@
     tools:context=".ContactPage">
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/nameField"
         android:layout_width="match_parent"
         android:layout_height="73dp"
         android:ems="10"
@@ -17,7 +17,7 @@
         tools:fontFamily="@font/oxygen_bold" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/phoneField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -26,16 +26,25 @@
         tools:text="Phone #" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/monthField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
-        android:text="Birthday"
-        tools:text="Enter birthday here" />
+        android:inputType="number"
+        android:text="Month"
+        tools:text="Month" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/dayField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Day"
+        tools:text="Day" />
+
+    <EditText
+        android:id="@+id/msgField"
         android:layout_width="match_parent"
         android:layout_height="151dp"
         android:ems="10"
@@ -45,7 +54,7 @@
         tools:text="Enter message here" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/timeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -57,5 +66,5 @@
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="Save" />
 </LinearLayout>
