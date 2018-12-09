@@ -3,20 +3,34 @@ package com.example.nicolecheung.myapplication;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.util.Log;
 import android.widget.Button;
 import android.content.SharedPreferences;
 import android.widget.EditText;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Date;
 
 public class ContactPage extends AppCompatActivity {
-
+    private static ArrayList<String> contactList = new ArrayList<>(1);
+    private SharedPreferences data;
     private static final String TAG = "ContactPage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_page);
+
+        final Button deleteBtn = (Button) findViewById(R.id.deleteButton);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                data.edit().clear().apply();
+                // Remove Listing
+            }
+        });
 
         final Button saveBtn = (Button) findViewById(R.id.saveButton);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -37,20 +51,39 @@ public class ContactPage extends AppCompatActivity {
                 String msg = e.getText().toString();
                 String i = f.getText().toString();
                 int time = Integer.parseInt(i);
-                storeContact(name, phone, month, day, msg, time);
+                new ContactPage(name, phone, month, day, msg, time);
+
+                TimerTask toDo = new TimerTask() {
+                    public void run() {
+                        SmsManager toSend = SmsManager.getDefault();
+                        toSend.sendTextMessage(destination, address, data.getString("msg", ""), null, null);
+                    }
+                };
+
+                Date toExecute = new Date(2018, data.getInt("month", 0), data.getInt("Day", 0));
+
+                Timer bday = new Timer(true);
+                bday.schedule(toDo, toExecute);
+
                 startActivity(new Intent(ContactPage.this, MainActivity.class));
             }
         });
     }
-    public void storeContact(String name, String phone, int month, int day, String message, int time) {
-        SharedPreferences contact = getSharedPreferences(name, 0);
-        SharedPreferences.Editor save = contact.edit();
-        save.putString("Name", name);
-        save.putString("Phone", phone);
-        save.putInt("Month", month);
-        save.putInt("Day", day);
-        save.putString("Message", message);
-        save.putInt("Time", time);
+    public ContactPage() {
+    }
+    public ContactPage(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setTime) {
+        data = getSharedPreferences(setName, 0);
+        SharedPreferences.Editor save = data.edit();
+        save.putString("Name", setName);
+        save.putString("Phone", setPhone);
+        save.putInt("Month", setMonth);
+        save.putInt("Day", setDay);
+        save.putString("Message", setMessage);
+        save.putInt("Time", setTime);
         save.apply();
+        contactList.add(setName);
+    }
+    public static ArrayList<String> getContactList() {
+        return contactList;
     }
 }

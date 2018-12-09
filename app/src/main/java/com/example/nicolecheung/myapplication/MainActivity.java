@@ -2,6 +2,7 @@ package com.example.nicolecheung.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.content.Intent;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.content.Context;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,14 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<String> contactList = new ArrayList<String>();
-        for (int i = 0; i < Contact.getList().size(); i++) {
-            contactList.add(Contact.getList().get(i).toString());
-        }
-
+        ArrayList<String> toDisplay = ContactPage.getContactList();
         final ListView listview = (ListView) findViewById(R.id.contacts);
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, contactList);
+                android.R.layout.simple_list_item_1, toDisplay);
         listview.setAdapter(adapter);
 
 
@@ -65,5 +64,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 }
