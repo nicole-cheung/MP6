@@ -1,6 +1,7 @@
 package com.example.nicolecheung.myapplication;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -16,7 +17,7 @@ import java.util.Date;
 
 public class ContactPage extends AppCompatActivity {
     private static ArrayList<String> contactList = new ArrayList<>(1);
-    private SharedPreferences data;
+    public SharedPreferences data;
     private static final String TAG = "ContactPage";
 
     @Override
@@ -51,28 +52,29 @@ public class ContactPage extends AppCompatActivity {
                 String msg = e.getText().toString();
                 String i = f.getText().toString();
                 int time = Integer.parseInt(i);
-                new ContactPage(name, phone, month, day, msg, time);
+                ArrayList<ContactPage> contacts = new ArrayList<>(1);
+                contacts.add(new ContactPage());
+                storeContact(name, phone, month, day, msg, time);
 
                 TimerTask toDo = new TimerTask() {
                     public void run() {
                         SmsManager toSend = SmsManager.getDefault();
-                        toSend.sendTextMessage(data.getString("Phone", null), null, data.getString("Message", "Happy Birthday!"), null, null);
+                        toSend.sendTextMessage(data.getString("Phone", "6302075006"), null, data.getString("Message", ""), null, null);
                     }
                 };
 
-                Date toExecute = new Date(2018, data.getInt("month", 1), data.getInt("Day", 1));
+                Date toExecute = new Date(2018, data.getInt("Month", 1), data.getInt("Day", 1));
 
                 Timer bday = new Timer(true);
                 bday.schedule(toDo, toExecute);
-
                 startActivity(new Intent(ContactPage.this, MainActivity.class));
             }
         });
     }
-    public ContactPage() {
+    public ContactPage(){
     }
-    public ContactPage(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setTime) {
-        data = getSharedPreferences(setName, 0);
+    public void storeContact(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setTime) {
+        data = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor save = data.edit();
         save.putString("Name", setName);
         save.putString("Phone", setPhone);
