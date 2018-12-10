@@ -56,11 +56,11 @@ public class ContactPage extends AppCompatActivity {
                 TimerTask toDo = new TimerTask() {
                     public void run() {
                         SmsManager toSend = SmsManager.getDefault();
-                        toSend.sendTextMessage(destination, address, data.getString("msg", ""), null, null);
+                        toSend.sendTextMessage(data.getString("Phone", null), null, data.getString("Message", "Happy Birthday!"), null, null);
                     }
                 };
 
-                Date toExecute = new Date(2018, data.getInt("month", 0), data.getInt("Day", 0));
+                Date toExecute = new Date(2018, data.getInt("month", 1), data.getInt("Day", 1));
 
                 Timer bday = new Timer(true);
                 bday.schedule(toDo, toExecute);
