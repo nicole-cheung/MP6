@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Date;
@@ -48,27 +47,33 @@ public class ContactPage extends AppCompatActivity {
                 EditText c = findViewById(R.id.monthField);
                 EditText d = findViewById(R.id.dayField);
                 EditText e = findViewById(R.id.msgField);
+                EditText f = findViewById(R.id.timeField);
                 String name = a.getText().toString();
                 String phone = b.getText().toString();
-                String theMonth = c.getText().toString();
-                int month = Integer.parseInt(theMonth);
-                String theDay = d.getText().toString();
-                int day = Integer.parseInt(theDay);
+                String g = c.getText().toString();
+                int month = Integer.parseInt(g);
+                String h = d.getText().toString();
+                int day = Integer.parseInt(h);
                 String msg = e.getText().toString();
+                String i = f.getText().toString();
+                String firstHalf = i.substring(0, 2);
+                String secondHalf = i.substring(2,4);
+                int hour = Integer.parseInt(firstHalf);
+                int min = Integer.parseInt(secondHalf);
                 ArrayList<ContactPage> contacts = new ArrayList<>(1);
                 contacts.add(new ContactPage());
-                storeContact(name, phone, month, day, msg);
-                SendSMS();
+                storeContact(name, phone, month, day, msg, hour, min);
 
 
-               /* TimerTask too = new TimerTask() {
+
+                TimerTask toDo = new TimerTask() {
                     public void run() {
                         SendSMS();
                     }
                 };
 
-                Date toExecute = new Date(2018, data.getInt("Month", 12), data.getInt("Day", 11), data.getInt("Hour", 1), data.getInt("Minute", 22));
-                bday.schedule(too, toExecute); */
+                Date toExecute = new Date(118, data.getInt("Month", 1) - 1, data.getInt("Day", 1), data.getInt("Hour", 1), data.getInt("Minute", 22));
+                bday.schedule(toDo, toExecute);
 
                 startActivity(new Intent(ContactPage.this, MainActivity.class));
             }
@@ -76,15 +81,16 @@ public class ContactPage extends AppCompatActivity {
     }
     public ContactPage(){
     }
-    public void storeContact(String setName, String setPhone, int setMonth, int setDay, String setMessage) {
+    public void storeContact(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setHour, int setMinute) {
         data = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor save = data.edit();
         save.putString("Name", setName);
         save.putString("Phone", setPhone);
         save.putInt("Month", setMonth);
         save.putInt("Day", setDay);
-        save.apply();
-        save.putString("Message", setMessage + ": " + Long.toString(daysBetweenTwoDates()) + " days early!");
+        save.putString("Message", setMessage);
+        save.putInt("Hour", setHour);
+        save.putInt("Minute", setMinute);
         save.apply();
         contactList.add(setName);
     }
@@ -99,18 +105,5 @@ public class ContactPage extends AppCompatActivity {
             ActivityCompat.requestPermissions(ContactPage.this, new String[]{Manifest.permission.SEND_SMS}, 1);
             SendSMS();
         }
-    }
-    public long daysBetweenTwoDates() {
-        Calendar cal = Calendar.getInstance();
-        Date firstDate = cal.getTime();
-
-        Calendar cal2 = Calendar.getInstance();
-        cal2.clear();
-        cal2.set(2019, data.getInt("Month", 0) - 1, data.getInt("Day", 0));
-        Date secondDate = cal2.getTime();
-
-        long diff = secondDate.getTime() - firstDate.getTime();
-        long days = diff / (1000*60*60*24);
-        return days + 1;
     }
 }
