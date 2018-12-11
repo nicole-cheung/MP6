@@ -1,7 +1,11 @@
 package com.example.nicolecheung.myapplication;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -19,6 +23,7 @@ public class ContactPage extends AppCompatActivity {
     private static ArrayList<String> contactList = new ArrayList<>(1);
     public SharedPreferences data;
     private static final String TAG = "ContactPage";
+    Timer bday = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +57,24 @@ public class ContactPage extends AppCompatActivity {
                 String msg = e.getText().toString();
                 String i = f.getText().toString();
                 String firstHalf = i.substring(0, 2);
-                String secondHalf = i.substring(2 , i.length());
+                String secondHalf = i.substring(2,4);
                 int hour = Integer.parseInt(firstHalf);
                 int min = Integer.parseInt(secondHalf);
                 ArrayList<ContactPage> contacts = new ArrayList<>(1);
                 contacts.add(new ContactPage());
                 storeContact(name, phone, month, day, msg, hour, min);
 
+
+
                 TimerTask toDo = new TimerTask() {
                     public void run() {
-                        SmsManager toSend = SmsManager.getDefault();
-                        toSend.sendTextMessage(data.getString("Phone", "0"), null, data.getString("Message", ""), null, null);
+                        SendSMS();
                     }
                 };
 
-                Date toExecute = new Date(2018, data.getInt("Month", 1), data.getInt("Day", 1), data.getInt("Hours", 1), data.getInt("Hour", 1), data.getInt("Minute", 1));
-
-                Timer bday = new Timer(true);
+                Date toExecute = new Date(2018, data.getInt("Month", 12), data.getInt("Day", 11), data.getInt("Hour", 1), data.getInt("Minute", 22));
                 bday.schedule(toDo, toExecute);
+
                 startActivity(new Intent(ContactPage.this, MainActivity.class));
             }
         });
@@ -91,5 +96,14 @@ public class ContactPage extends AppCompatActivity {
     }
     public static ArrayList<String> getContactList() {
         return contactList;
+    }
+    public void SendSMS() {
+        if (ContextCompat.checkSelfPermission(ContactPage.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            SmsManager toSend = SmsManager.getDefault();
+            toSend.sendTextMessage(data.getString("Phone", "5554"), null, data.getString("Message", ""), null, null);
+        } else {
+            ActivityCompat.requestPermissions(ContactPage.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+            SendSMS();
+        }
     }
 }
