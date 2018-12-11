@@ -51,19 +51,22 @@ public class ContactPage extends AppCompatActivity {
                 int day = Integer.parseInt(h);
                 String msg = e.getText().toString();
                 String i = f.getText().toString();
-                int time = Integer.parseInt(i);
+                String firstHalf = i.substring(0, 2);
+                String secondHalf = i.substring(2 , i.length());
+                int hour = Integer.parseInt(firstHalf);
+                int min = Integer.parseInt(secondHalf);
                 ArrayList<ContactPage> contacts = new ArrayList<>(1);
                 contacts.add(new ContactPage());
-                storeContact(name, phone, month, day, msg, time);
+                storeContact(name, phone, month, day, msg, hour, min);
 
                 TimerTask toDo = new TimerTask() {
                     public void run() {
                         SmsManager toSend = SmsManager.getDefault();
-                        toSend.sendTextMessage(data.getString("Phone", "6302075006"), null, data.getString("Message", ""), null, null);
+                        toSend.sendTextMessage(data.getString("Phone", "0"), null, data.getString("Message", ""), null, null);
                     }
                 };
 
-                Date toExecute = new Date(2018, data.getInt("Month", 1), data.getInt("Day", 1));
+                Date toExecute = new Date(2018, data.getInt("Month", 1), data.getInt("Day", 1), data.getInt("Hours", 1), data.getInt("Hour", 1), data.getInt("Minute", 1));
 
                 Timer bday = new Timer(true);
                 bday.schedule(toDo, toExecute);
@@ -73,7 +76,7 @@ public class ContactPage extends AppCompatActivity {
     }
     public ContactPage(){
     }
-    public void storeContact(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setTime) {
+    public void storeContact(String setName, String setPhone, int setMonth, int setDay, String setMessage, int setHour, int setMinute) {
         data = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor save = data.edit();
         save.putString("Name", setName);
@@ -81,7 +84,8 @@ public class ContactPage extends AppCompatActivity {
         save.putInt("Month", setMonth);
         save.putInt("Day", setDay);
         save.putString("Message", setMessage);
-        save.putInt("Time", setTime);
+        save.putInt("Hour", setHour);
+        save.putInt("Minute", setMinute);
         save.apply();
         contactList.add(setName);
     }
